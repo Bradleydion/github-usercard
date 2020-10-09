@@ -5,40 +5,20 @@
     https://api.github.com/users/<your name>
 */
 
-const userProfile = axios.get("https://api.github.com/users/Bradleydion")
+axios.get("https://api.github.com/users/Bradleydion")
 .then((response)=>{
 console.log(response)
+cards.append(gitHubCard(response))
 })
 .catch((err)=>{
   console.log(err)
 })
-
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
 
-    Skip to STEP 3.
 */
-
-/*
-  STEP 4: Pass the data received from Github into your function,
-    and append the returned markup to the DOM as a child of .cards
-*/
-
-/*
-  STEP 5: Now that you have your own card getting added to the DOM, either
-    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
-    manually find some other users' github handles, or use the list found at the
-    bottom of the page. Get at least 5 different Github usernames and add them as
-    Individual strings to the friendsArray below.
-
-    Using that array, iterate over it, requesting data for each user, creating a new card for each
-    user, and adding that card to the DOM.
-*/
-
-const followersArray = [];
-
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -63,33 +43,84 @@ const gitHubCard = (object) => {
   cardDiv.classList.add("card")
 
   const img = document.createElement("img")
-  img.src= object.response.data.avatar_url
+  img.src= object.data.avatar_url
+  cardDiv.append(img)
   // might need img.src.textContent
   const userInfo = document.createElement("div")
   userInfo.classList.add("card-info")
+  cardDiv.append(userInfo)
 
   const userName = document.createElement("h3")
   userName.classList.add("name")
   userName.textContent=`${object.data.name}`
+  userInfo.append(userName)
 
   const userName2 = document.createElement("p")
   userName2.classList.add("username")
   userName2.textContent=`${object.data.login}`
-
+  userInfo.append(userName2)
 
   const location = document.createElement ('p')
+  location.textContent=`Location: ${object.data.location}`
+  userInfo.append(location)
 
   const profile = document.createElement("p")
-
+  profile.textContent=`Profile:`
   const profileLink = document.createElement("a")
+  profileLink.href= object.data.html_url
   profileLink.textContent= `${object.data.html_url}`
   profile.append(profileLink)
+  userInfo.append(profile)
 
+  const followerCount = document.createElement ("p")
+  followerCount.textContent=`Follower: ${object.data.followers}`
+  userInfo.append(followerCount)
+
+  const followingCount = document.createElement ("p")
+  followingCount.textContent=`Following: ${object.data.following}`
+  userInfo.append(followingCount)
+
+  const biography = document.createElement("p")
+  biography.textContent = `Bio: ${object.data.bio}`
+  userInfo.append(biography)
 
 return cardDiv
+
 }
-// const cards = document.querySelector(".cards")
-// cards.append(gitHubCard(userProfile))
+const cards = document.querySelector(".cards")
+
+
+/*
+  STEP 4: Pass the data received from Github into your function,
+    and append the returned markup to the DOM as a child of .cards
+*/
+
+/*
+  STEP 5: Now that you have your own card getting added to the DOM, either
+    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
+    manually find some other users' github handles, or use the list found at the
+    bottom of the page. Get at least 5 different Github usernames and add them as
+    Individual strings to the friendsArray below.
+
+    Using that array, iterate over it, requesting data for each user, creating a new card for each
+    user, and adding that card to the DOM.
+*/
+
+const followersArray = [
+  "https://api.github.com/users/tetondan",
+  "https://api.github.com/users/dustinmyers",
+ " https://api.github.com/users/justsml",
+  "https://api.github.com/users/luishrd",
+  "https://api.github.com/users/bigknell"
+];
+followersArray.forEach(i => {axios.get(i).then((response)=>{
+  console.log(response)
+  cards.append(gitHubCard(response))
+  })
+  .catch((err)=>{
+    console.log(err)
+  })})
+
 /*
   List of LS Instructors Github username's:
     tetondan
