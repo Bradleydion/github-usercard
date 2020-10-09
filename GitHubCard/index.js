@@ -4,7 +4,8 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-axios.get("https://api.github.com/users/Bradleydion")
+
+const userProfile = axios.get("https://api.github.com/users/Bradleydion")
 .then((response)=>{
 console.log(response)
 })
@@ -57,7 +58,38 @@ const followersArray = [];
       </div>
     </div>
 */
+const gitHubCard = (object) => {
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card")
 
+  const img = document.createElement("img")
+  img.src= object.response.data.avatar_url
+  // might need img.src.textContent
+  const userInfo = document.createElement("div")
+  userInfo.classList.add("card-info")
+
+  const userName = document.createElement("h3")
+  userName.classList.add("name")
+  userName.textContent=`${object.data.name}`
+
+  const userName2 = document.createElement("p")
+  userName2.classList.add("username")
+  userName2.textContent=`${object.data.login}`
+
+
+  const location = document.createElement ('p')
+
+  const profile = document.createElement("p")
+
+  const profileLink = document.createElement("a")
+  profileLink.textContent= `${object.data.html_url}`
+  profile.append(profileLink)
+
+
+return cardDiv
+}
+// const cards = document.querySelector(".cards")
+// cards.append(gitHubCard(userProfile))
 /*
   List of LS Instructors Github username's:
     tetondan
